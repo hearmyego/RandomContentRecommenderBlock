@@ -1,0 +1,20 @@
+﻿@using System.Web.Mvc.Html
+@using RandomContentRecommendation.Controllers
+@using EPiServer.Core
+@using EPiServer.Web.Mvc.Html
+@model RandomContentRecommendation.Models.ViewModels.RandomContentRecommenderViewModel
+    
+    <div class="border">
+        <h2 style="text-decoration: none; background-color: #2677af; color: #FFF; padding: 10px; display: block; margin: 5px">@Html.PropertyFor(m => m.Headline)</h2>
+
+        @*Link the block only if a link has been set and not displayed in preview*@
+        @using (Html.BeginConditionalLink(
+            !ContentReference.IsNullOrEmpty(Model.Link) && !(ViewContext.Controller is PreviewController),
+            Url.PageLinkUrl(Model.Link),
+            Model.Heading))
+        {
+            <h2 @Html.EditAttributes(x => x.Heading)>@Model.Heading</h2>
+            <p @Html.EditAttributes(x => x.Text)>@Model.Text</p>
+            <div @Html.EditAttributes(x => x.Image)><img src="@Url.ContentUrl(Model.Image)" /></div>
+        }
+    </div>
